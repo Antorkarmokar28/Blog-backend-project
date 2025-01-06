@@ -1,17 +1,25 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import router from './app/router';
+import { BlogRoutes } from './app/modules/blog/blog.route';
+import globalErrorHandeling from './app/middlewares/globalErrorHandeling';
+import { UserRegistrationRouter } from './app/modules/auth/auth.route';
+// import notFound from './app/middlewares/notFound';
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (_req: Request, res: Response) => {
   res.send({
     success: true,
     message: 'Server is runnig...',
   });
 });
 
-app.use('/api', router);
-
+app.use('/api/auth', UserRegistrationRouter);
+app.use('/api', BlogRoutes);
+// global error route
+app.use(globalErrorHandeling);
+// notfound route
+// not found handeler
+// app.use(notFound);
 export default app;
