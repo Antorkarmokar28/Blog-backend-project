@@ -3,7 +3,7 @@ import catchAsynch from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { BlogService } from './blog.service';
 
-const createUser = catchAsynch(async (req, res) => {
+const createBlog = catchAsynch(async (req, res) => {
   const payload = req.body;
   const result = await BlogService.createBlogIntoDB(payload);
   sendResponse(res, {
@@ -15,8 +15,8 @@ const createUser = catchAsynch(async (req, res) => {
 });
 
 const getSingleBlog = catchAsynch(async (req, res) => {
-  const { id } = req.params;
-  const result = await BlogService.getSingleBlogFromDB(id);
+  const { userId } = req.params;
+  const result = await BlogService.getSingleBlogFromDB(userId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
@@ -25,7 +25,32 @@ const getSingleBlog = catchAsynch(async (req, res) => {
   });
 });
 
+const updateBlog = catchAsynch(async (req, res) => {
+  const { id } = req.params;
+  const payload = req.body;
+  const result = await BlogService.updateBlogIntoDB(id, payload);
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Blog updated successfully',
+    data: result,
+  });
+});
+
+const deleteBlog = catchAsynch(async (req, res) => {
+  const { id } = req.params;
+  const result = await BlogService.deleteBlogFromDB(id);
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Blog deleted successfully',
+    data: result,
+  });
+});
+
 export const BlogController = {
-  createUser,
+  createBlog,
   getSingleBlog,
+  updateBlog,
+  deleteBlog,
 };

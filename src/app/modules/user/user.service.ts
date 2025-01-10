@@ -1,3 +1,5 @@
+import { StatusCodes } from 'http-status-codes';
+import AppError from '../../error/appError';
 import { IUser } from './user.interface';
 import { User } from './user.model';
 // // create user into DB
@@ -7,8 +9,11 @@ import { User } from './user.model';
 // };
 //get single user from DB
 const getSingleUserFromBD = async (id: string) => {
-  const result = await User.findById(id);
-  return result;
+  const user = await User.findById(id);
+  if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
+  }
+  return user;
 };
 //get all user from DB
 const getAllUserFromBD = async () => {
