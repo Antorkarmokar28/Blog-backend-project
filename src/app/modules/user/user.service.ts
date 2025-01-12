@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import AppError from '../../error/appError';
+import AppError from '../../errors/appError';
 import { IUser } from './user.interface';
 import { User } from './user.model';
 // // create user into DB
