@@ -10,12 +10,14 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get('/', (_req: Request, res: Response) => {
+const testServer = async (req: Request, res: Response) => {
   res.send({
     success: true,
     message: 'Server is runnig...',
   });
-});
+};
+
+app.get('/', testServer);
 
 app.use('/api/auth', UserRegistrationRouter);
 app.use('/api/auth', UserRoute);
@@ -23,4 +25,6 @@ app.use('/api', BlogRoutes);
 app.use('/api', AdminActionRouter);
 // global error route
 app.use(globalErrorHandeling);
+// not found handeler
+// app.use(notFound);
 export default app;

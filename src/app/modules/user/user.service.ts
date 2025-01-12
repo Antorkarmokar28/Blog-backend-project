@@ -2,11 +2,6 @@ import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/appError';
 import { IUser } from './user.interface';
 import { User } from './user.model';
-// // create user into DB
-// const createUserIntoDB = async (payload: IUser) => {
-//   const result = await User.create(payload);
-//   return result;
-// };
 //get single user from DB
 const getSingleUserFromBD = async (id: string) => {
   const user = await User.findById(id);

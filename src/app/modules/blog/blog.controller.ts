@@ -15,8 +15,8 @@ const createBlog = catchAsynch(async (req, res) => {
 });
 
 const getSingleBlog = catchAsynch(async (req, res) => {
-  const { userId } = req.params;
-  const result = await BlogService.getSingleBlogFromDB(userId);
+  const { id } = req.params;
+  const result = await BlogService.getSingleBlogFromDB(id);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
