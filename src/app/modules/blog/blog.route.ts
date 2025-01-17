@@ -20,7 +20,7 @@ router.get('/blogs', BlogController.getAllBlog);
 //update blog
 router.patch(
   '/blogs/:id',
-  auth('admin', 'user'),
+  auth('user'),
   validateRequest(BlogValidation.updateBlogSchema),
   BlogController.updateBlog,
 );

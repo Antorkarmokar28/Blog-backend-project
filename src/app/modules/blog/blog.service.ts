@@ -3,8 +3,7 @@ import AppError from '../../errors/appError';
 import { IBlog } from './blog.interface';
 import { Blog } from './blog.model';
 import { JwtPayload } from 'jsonwebtoken';
-// import { searchAbleFields } from './blog.const';
-// create blog into db
+import { searchAbleFields } from './blog.const';
 const createBlogIntoDB = async (payload: IBlog) => {
   const result = await Blog.create(payload);
   return result;
@@ -16,13 +15,9 @@ const getSingleBlogFromDB = async (id: string) => {
 };
 // get all blog from db
 const getAllBlogFromDB = async (query: Record<string, unknown>) => {
-  // const result = await Blog.find(query).populate('author', 'name email');
-  // return result;
   const queryObj = { ...query };
 
   const search = query.search || '';
-
-  const searchAbleFields = ['title', 'content', 'creatAt'];
 
   const excludingQuery = ['search', 'sortBy', 'sortOrder'];
 

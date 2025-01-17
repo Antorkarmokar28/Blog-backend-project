@@ -8,14 +8,14 @@ const router = Router();
 
 router.patch(
   '/admin/users/:userId/block',
-  auth('admin', ''),
+  auth('admin'),
   validateRequest(UserValidation.updateUserValidationSchema),
   AdminController.userIsBlockInfoUpdating,
 );
 
 router.delete(
   '/admin/blogs/:id',
-  auth('admin', ''),
+  auth('admin'),
   AdminController.userBlogDelete,
 );
 export const AdminActionRouter = router;

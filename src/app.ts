@@ -25,6 +25,6 @@ app.use('/api', BlogRoutes);
 app.use('/api', AdminActionRouter);
 // global error route
 app.use(globalErrorHandeling);
-// not found handeler
+// any router not found handeler
 // app.use(notFound);
 export default app;

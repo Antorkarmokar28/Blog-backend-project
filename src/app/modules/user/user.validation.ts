@@ -12,8 +12,8 @@ const createUserValidationSchema = z.object({
     name: createUserFullNameValidationSchema,
     email: z.string().trim().email('Invalid email format'),
     password: z.string().nonempty('Password is required'),
-    role: z.enum(['admin', 'user']),
-    isBlocked: z.boolean().default(false),
+    role: z.enum(['admin', 'user']).optional(),
+    isBlocked: z.boolean().default(false).optional(),
   }),
 });
 
