@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 
-export interface IBlog {
+export interface IBlog extends Document {
   title: string;
   content: string;
   author: Types.ObjectId;

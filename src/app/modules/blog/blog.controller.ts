@@ -38,7 +38,9 @@ const getAllBlog = catchAsynch(async (req, res) => {
 const updateBlog = catchAsynch(async (req, res) => {
   const { id } = req.params;
   const payload = req.body;
-  const result = await BlogService.updateBlogIntoDB(id, payload);
+  const user = req.user;
+
+  const result = await BlogService.updateBlogIntoDB(user, id, payload);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
@@ -49,7 +51,8 @@ const updateBlog = catchAsynch(async (req, res) => {
 
 const deleteBlog = catchAsynch(async (req, res) => {
   const { id } = req.params;
-  const result = await BlogService.deleteBlogFromDB(id);
+  const userId = req.user;
+  const result = await BlogService.deleteBlogFromDB(id, userId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,

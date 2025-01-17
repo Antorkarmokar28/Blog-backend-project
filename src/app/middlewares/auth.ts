@@ -1,23 +1,27 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import catchAsynch from '../utils/catchAsync';
-import { User } from '../modules/user/user.model';
+// import { User } from '../modules/user/user.model';
 import AppError from '../errors/appError';
 import { StatusCodes } from 'http-status-codes';
+import config from '../config';
 
 const auth = (...requiredRole: string[]) => {
   return catchAsynch(async (req, res, next) => {
     const token = req.headers.authorization;
+    // if the token sent from the client
     if (!token) {
       throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized');
     }
-    const decoded = jwt.verify(token, 'secret') as JwtPayload;
-    const { email, role } = decoded;
-    const user = await User.findOne({ email });
-    if (!user) {
-      throw new AppError(StatusCodes.NOT_FOUND, 'User not found!');
-    }
+    //if the token is valid
+    const decoded = jwt.verify(
+      token,
+      config.jwt_access_secret as string,
+    ) as JwtPayload;
+
+    const role = decoded?.role;
+
     if (requiredRole && !requiredRole.includes(role)) {
-      throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not unathorized!');
+      throw new AppError(StatusCodes.UNAUTHORIZED, 'Invalid credentials');
     }
     req.user = decoded as JwtPayload;
     next();

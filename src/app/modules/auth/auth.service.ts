@@ -5,6 +5,7 @@ import { User } from '../user/user.model';
 import { ILogin } from './login.interface';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import config from '../../config';
 //user registar into data base
 const userRegisterIntoDB = async (payload: IUser) => {
   const { email } = payload;
@@ -22,7 +23,7 @@ const userLogin = async (payload: ILogin) => {
   );
   //checking user is exist
   if (!user) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'User not found');
+    throw new AppError(StatusCodes.UNAUTHORIZED, 'Invalid credentials');
   }
   //checking user is blocke or unblocked
   const userIsBlocked = user?.isBlocked;
@@ -35,16 +36,22 @@ const userLogin = async (payload: ILogin) => {
     throw new AppError(StatusCodes.UNAUTHORIZED, 'Invalid credentials');
   }
   //generate user token
-  const token = jwt.sign({ email: user?.email, role: user?.role }, 'secret', {
+  const jwtPayload = {
+    userId: user?._id,
+    role: user?.role,
+  };
+  //generate the user access token
+  const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
     expiresIn: '30d',
   });
+
   const verifiedData = {
     name: user?.name,
-    emai: user?.email,
+    email: user?.email,
     role: user?.role,
     isBlocked: user?.isBlocked,
   };
-  return { token, verifiedData };
+  return { accessToken, verifiedData };
 };
 export const UserAuthService = {
   userRegisterIntoDB,

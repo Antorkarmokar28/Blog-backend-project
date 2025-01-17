@@ -21,7 +21,7 @@ const userLogin = catchAsynch(async (req, res) => {
     statusCode: StatusCodes.CREATED,
     success: true,
     message: 'Login successful',
-    token: result?.token,
+    token: result?.accessToken,
     data: result?.verifiedData,
   });
 });
