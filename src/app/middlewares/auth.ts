@@ -7,10 +7,14 @@ import config from '../config';
 
 const auth = (...requiredRole: string[]) => {
   return catchAsynch(async (req, res, next) => {
-    const token = req.headers.authorization;
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
     // if the token sent from the client
     if (!token) {
-      throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized');
+      throw new AppError(
+        StatusCodes.UNAUTHORIZED,
+        'Access token missing or invalid',
+      );
     }
     //if the token is valid
     const decoded = jwt.verify(
