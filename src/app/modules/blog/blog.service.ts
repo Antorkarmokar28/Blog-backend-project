@@ -6,8 +6,7 @@ import { Blog } from './blog.model';
 import { JwtPayload } from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import { searchableFields } from './blog.const';
-const createBlogIntoDB = async (user: any, payload: IBlog) => {
-  const userId = user?.userId;
+const createBlogIntoDB = async (userId: any, payload: IBlog) => {
   const { title, content } = payload;
   const result = await Blog.create({ title, content, author: userId });
   return result;
@@ -63,9 +62,6 @@ const updateBlogIntoDB = async (
   payload: Partial<IBlog>,
 ) => {
   const { title, content } = payload;
-  // if (user?.role === 'admin') {
-  //   throw new AppError(StatusCodes.UNAUTHORIZED, 'Validation error');
-  // }
   const blog = await Blog.findOneAndUpdate(
     { _id: id, author: userId },
     { title, content },

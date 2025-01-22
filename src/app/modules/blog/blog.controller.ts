@@ -5,8 +5,9 @@ import { BlogService } from './blog.service';
 
 const createBlog = catchAsynch(async (req, res) => {
   const payload = req.body;
-  const user = req.user;
-  const result = await BlogService.createBlogIntoDB(user, payload);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { userId }: any = req.user;
+  const result = await BlogService.createBlogIntoDB(userId, payload);
   sendResponse(res, {
     statusCode: StatusCodes.CREATED,
     success: true,
