@@ -58,16 +58,16 @@ const getAllBlogsFromDB = async (query: Record<string, unknown>) => {
 };
 //update blog info into db
 const updateBlogIntoDB = async (
-  user: JwtPayload | undefined,
+  userId: JwtPayload | undefined,
   id: string,
   payload: Partial<IBlog>,
 ) => {
   const { title, content } = payload;
-  if (user?.role === 'admin') {
-    throw new AppError(StatusCodes.UNAUTHORIZED, 'Validation error');
-  }
-  const blog = await Blog.findByIdAndUpdate(
-    id,
+  // if (user?.role === 'admin') {
+  //   throw new AppError(StatusCodes.UNAUTHORIZED, 'Validation error');
+  // }
+  const blog = await Blog.findOneAndUpdate(
+    { _id: id, author: userId },
     { title, content },
     { new: true },
   );

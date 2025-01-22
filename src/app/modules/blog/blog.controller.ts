@@ -39,8 +39,9 @@ const getAllBlog = catchAsynch(async (req, res) => {
 const updateBlog = catchAsynch(async (req, res) => {
   const { id } = req.params;
   const payload = req.body;
-  const user = req.user;
-  const result = await BlogService.updateBlogIntoDB(user, id, payload);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { userId }: any = req.user;
+  const result = await BlogService.updateBlogIntoDB(userId, id, payload);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
