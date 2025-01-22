@@ -26,5 +26,10 @@ app.use('/api', AdminActionRouter);
 // global error route
 app.use(globalErrorHandeling);
 // any router not found handeler
-// app.use(notFound);
+app.use('*', (req: Request, res: Response) => {
+  res.status(404).json({
+    status: false,
+    message: 'Route not found',
+  });
+});
 export default app;
