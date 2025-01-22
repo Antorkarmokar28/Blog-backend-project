@@ -30,10 +30,10 @@ This is a NSQL blogging backend platform. The database is designed to accommodat
 ---
 
 **4. Public API for Blogs**
-    - Publicly accessible endpoints to view blogs without authentication.
-    - Search blogs by title, author name, or tags.
-    - Sort blogs based on creation date, popularity, or other criteria.
-    - Filter blogs by specific attributes, such as tags or date ranges.
+- Publicly accessible endpoints to view blogs without authentication.
+- Search blogs by title, author name, or tags.
+- Sort blogs based on creation date, popularity, or other criteria.
+- Filter blogs by specific attributes, such as tags or date ranges.
 
 ## Installation
 
