@@ -7,7 +7,7 @@ import config from '../config';
 
 const auth = (...requiredRole: string[]) => {
   return catchAsynch(async (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1];
+    const token = req.headers.authorization;
     // if the token sent from the client
     if (!token) {
       throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized');

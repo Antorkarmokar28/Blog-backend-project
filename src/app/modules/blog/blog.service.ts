@@ -1,46 +1,59 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/appError';
 import { IBlog } from './blog.interface';
 import { Blog } from './blog.model';
 import { JwtPayload } from 'jsonwebtoken';
-import { searchAbleFields } from './blog.const';
-const createBlogIntoDB = async (payload: IBlog) => {
-  const result = await Blog.create(payload);
+import mongoose from 'mongoose';
+import { searchableFields } from './blog.const';
+const createBlogIntoDB = async (user: any, payload: IBlog) => {
+  const userId = user?.userId;
+  const { title, content } = payload;
+  const result = await Blog.create({ title, content, author: userId });
   return result;
 };
 //get single blog from db
 const getSingleBlogFromDB = async (id: string) => {
-  const result = await Blog.findById(id).populate('author', 'name email');
-  return result;
+  const blog = await Blog.findById(id).populate('author', 'name email');
+  if (!blog) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Blog not Found');
+  }
+  return blog;
 };
 // get all blog from db
-const getAllBlogFromDB = async (query: Record<string, unknown>) => {
+const getAllBlogsFromDB = async (query: Record<string, unknown>) => {
   const queryObj = { ...query };
 
   const search = query.search || '';
 
-  const excludingQuery = ['search', 'sortBy', 'sortOrder'];
+  const excludingQuery = ['search', 'sortBy', 'sortOrder', 'filter'];
 
   excludingQuery.forEach((key) => delete queryObj[key]);
-
-  // user search with query then get blog post
+  // User search with query to find blog posts
   const searchQuery = Blog.find({
-    $or: searchAbleFields.map((field) => ({
+    $or: searchableFields.map((field) => ({
       [field]: { $regex: search, $options: 'i' },
     })),
   });
-  // shorting data
+  // Sorting data
   let sortString;
   if (query?.sortBy && query?.sortOrder) {
-    const sortBy = query?.sortBy;
-    const sortOrder = query?.sortOrder;
-    sortString = `${sortOrder === 'desc' ? '-' : ''}${sortBy}`;
+    const sortBy = query.sortBy as string;
+    const sortOrder = query.sortOrder === 'desc' ? '-' : '';
+    sortString = `${sortOrder}${sortBy}`;
   }
-  const sortQuery = searchQuery.sort(sortString);
-  // get filtering blog from db
+  const sortQuery = sortString ? searchQuery.sort(sortString) : searchQuery;
+  //filtering data with author Id
+  if (query.filter) {
+    sortQuery.find({
+      author: new mongoose.Types.ObjectId(query.filter as string),
+    });
+  }
+  // Fetching the final result
   const result = await sortQuery
     .find(queryObj)
     .populate('author', 'name email');
+
   return result;
 };
 //update blog info into db
@@ -49,10 +62,15 @@ const updateBlogIntoDB = async (
   id: string,
   payload: Partial<IBlog>,
 ) => {
+  const { title, content } = payload;
   if (user?.role === 'admin') {
     throw new AppError(StatusCodes.UNAUTHORIZED, 'Validation error');
   }
-  const blog = await Blog.findByIdAndUpdate(id, payload);
+  const blog = await Blog.findByIdAndUpdate(
+    id,
+    { title, content },
+    { new: true },
+  );
   if (!blog) {
     throw new AppError(
       StatusCodes.NOT_FOUND,
@@ -63,12 +81,9 @@ const updateBlogIntoDB = async (
 };
 //delete data from db
 const deleteBlogFromDB = async (id: string, userId: JwtPayload | undefined) => {
-  const author = userId?.id;
-  const blog = await Blog.findByIdAndDelete(id);
+  const blog = await Blog.findOneAndDelete({ _id: id, author: userId });
   if (!blog) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Blog not found');
-  } else if (author !== blog) {
-    throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorize');
   }
   return blog;
 };
@@ -76,7 +91,7 @@ const deleteBlogFromDB = async (id: string, userId: JwtPayload | undefined) => {
 export const BlogService = {
   createBlogIntoDB,
   getSingleBlogFromDB,
-  getAllBlogFromDB,
+  getAllBlogsFromDB,
   updateBlogIntoDB,
   deleteBlogFromDB,
 };

@@ -1,1 +1,1 @@
-export const searchAbleFields = ['title', 'sortBy', 'sortOrder'];
+export const searchableFields = ['title', 'content'];
