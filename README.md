@@ -10,7 +10,6 @@ This is a NSQL blogging backend platform. The database is designed to accommodat
 - Secure user registration and login using JWT.
 - Passwords are hashed using industry-standard algorithms for added security.
 - Session management with token expiration to ensure secure access.
--
 
 **2. Role-Based Access Control**
 - **Admin Role:**
@@ -19,7 +18,6 @@ This is a NSQL blogging backend platform. The database is designed to accommodat
 - **User Role:**
     - Perform full CRUD operations on their own blogs.
     - Access restricted to only their own data, ensuring privacy.
--
 
 **3. Blog Management**
   - **Users can**
@@ -27,7 +25,6 @@ This is a NSQL blogging backend platform. The database is designed to accommodat
       - Update existing blogs they own.
       - Delete blogs they own.
   - **Admins can manage blogs created by any user.**
--
 
 **4. Public API for Blogs**
 - Publicly accessible endpoints to view blogs without authentication.
