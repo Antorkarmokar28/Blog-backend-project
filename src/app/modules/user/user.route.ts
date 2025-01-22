@@ -12,6 +12,7 @@ router.get('/', auth('admin', 'user'), UserController.getAllUser);
 // update data route
 router.patch(
   '/:id',
+  auth('admin', 'user'),
   validateRequest(UserValidation.updateUserValidationSchema),
   UserController.updateUser,
 );
