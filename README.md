@@ -43,4 +43,6 @@ Follow these steps to set up the project locally:
 -  **Cors** : [Install here](https://www.npmjs.com/package/cors)
 -  **Dotenv** : [Install here](https://www.npmjs.com/package/dotenv)
 
+## Video link
+https://drive.google.com/file/d/1dUZj44Pq4fZmf3xn-0XdEICJTl4J6EFh/view?usp=sharing
 ---
