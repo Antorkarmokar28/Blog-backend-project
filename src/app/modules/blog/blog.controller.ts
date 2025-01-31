@@ -2,7 +2,6 @@ import { StatusCodes } from 'http-status-codes';
 import catchAsynch from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { BlogService } from './blog.service';
-
 const createBlog = catchAsynch(async (req, res) => {
   const payload = req.body;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

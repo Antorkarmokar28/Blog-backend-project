@@ -15,10 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminActionService = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const appError_1 = __importDefault(require("../../errors/appError"));
-const user_model_1 = require("../user/user.model");
 const blog_model_1 = require("../blog/blog.model");
+const auth_model_1 = require("../auth/auth.model");
 const userIsBlockedInfoUpdateIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield user_model_1.User.findByIdAndUpdate(id, payload, {
+    const user = yield auth_model_1.User.findByIdAndUpdate(id, payload, {
         new: true,
         runValidators: true,
     });

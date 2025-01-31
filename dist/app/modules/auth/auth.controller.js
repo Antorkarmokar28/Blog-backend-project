@@ -33,11 +33,12 @@ const userLogin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void
     const payload = req.body;
     const result = yield auth_service_1.UserAuthService.userLogin(payload);
     (0, sendResponse_1.default)(res, {
-        statusCode: http_status_codes_1.StatusCodes.CREATED,
+        statusCode: http_status_codes_1.StatusCodes.OK,
         success: true,
         message: 'Login successful',
-        token: result === null || result === void 0 ? void 0 : result.accessToken,
-        data: result === null || result === void 0 ? void 0 : result.verifiedData,
+        data: {
+            token: result === null || result === void 0 ? void 0 : result.token,
+        },
     });
 }));
 exports.UserAuthController = {

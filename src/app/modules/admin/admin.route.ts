@@ -2,20 +2,16 @@ import { Router } from 'express';
 import { AdminController } from './admin.controller';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
-import { UserValidation } from '../user/user.validation';
+import { AuthValidation } from '../auth/auth.validation';
 
 const router = Router();
 
 router.patch(
-  '/admin/users/:userId/block',
+  '/users/:userId/block',
   auth('admin'),
-  validateRequest(UserValidation.updateUserValidationSchema),
+  validateRequest(AuthValidation.userUpdateRegistrationValidationSchema),
   AdminController.userIsBlockInfoUpdating,
 );
 
-router.delete(
-  '/admin/blogs/:id',
-  auth('admin'),
-  AdminController.userBlogDelete,
-);
+router.delete('/blogs/:id', auth('admin'), AdminController.userBlogDelete);
 export const AdminActionRouter = router;

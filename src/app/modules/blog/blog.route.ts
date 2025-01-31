@@ -8,23 +8,23 @@ import auth from '../../middlewares/auth';
 const router = express.Router();
 // create user route
 router.post(
-  '/blogs',
+  '/',
   auth('admin', 'user'),
   validateRequest(BlogValidation.createBlogSchema),
   BlogController.createBlog,
 );
 // get single blog
-router.get('/blogs/:id', BlogController.getSingleBlog);
+router.get('/:id', BlogController.getSingleBlog);
 // get all blog
-router.get('/blogs', BlogController.getAllBlog);
+router.get('/', BlogController.getAllBlog);
 //update blog
 router.patch(
-  '/blogs/:id',
+  '/:id',
   auth('user'),
   validateRequest(BlogValidation.updateBlogSchema),
   BlogController.updateBlog,
 );
 // delete blog
-router.delete('/blogs/:id', auth('admin', 'user'), BlogController.deleteBlog);
+router.delete('/:id', auth('admin', 'user'), BlogController.deleteBlog);
 
 export const BlogRoutes = router;

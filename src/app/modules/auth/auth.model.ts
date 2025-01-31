@@ -1,27 +1,12 @@
 import { model, Schema } from 'mongoose';
-import { IUser, IUserFullName } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
+import { IUser } from './auth.interface';
 
-const userFullNameSchema = new Schema<IUserFullName>({
-  firstName: {
-    type: String,
-    trim: true,
-  },
-  middleName: {
-    type: String,
-    trim: true,
-  },
-  lastName: {
-    type: String,
-    trim: true,
-  },
-});
-
-const userSchema = new Schema<IUser>(
+const userRegistrationSchema = new Schema<IUser>(
   {
     name: {
-      type: userFullNameSchema,
+      type: String,
       required: true,
     },
     email: {
@@ -50,7 +35,7 @@ const userSchema = new Schema<IUser>(
   },
 );
 
-userSchema.pre('save', async function (next) {
+userRegistrationSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;
   user.password = await bcrypt.hash(
@@ -60,9 +45,9 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-userSchema.post('save', function (doc, next) {
+userRegistrationSchema.post('save', function (doc, next) {
   doc.password = '';
   next();
 });
 
-export const User = model<IUser>('User', userSchema);
+export const User = model<IUser>('User', userRegistrationSchema);

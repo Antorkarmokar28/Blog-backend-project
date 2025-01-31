@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/appError';
 import { IBlog } from './blog.interface';
@@ -6,7 +5,7 @@ import { Blog } from './blog.model';
 import { JwtPayload } from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import { searchableFields } from './blog.const';
-const createBlogIntoDB = async (userId: any, payload: IBlog) => {
+const createBlogIntoDB = async (userId: JwtPayload, payload: IBlog) => {
   const { title, content } = payload;
   const result = await Blog.create({ title, content, author: userId });
   return result;

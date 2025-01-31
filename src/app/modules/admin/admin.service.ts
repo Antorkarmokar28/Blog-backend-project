@@ -1,8 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/appError';
-import { IUser } from '../user/user.interface';
-import { User } from '../user/user.model';
 import { Blog } from '../blog/blog.model';
+import { IUser } from '../auth/auth.interface';
+import { User } from '../auth/auth.model';
 
 const userIsBlockedInfoUpdateIntoDB = async (
   id: string,
