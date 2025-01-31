@@ -42,7 +42,7 @@ const userLogin = async (payload: ILogin) => {
   };
   //generate the user access token
   const token = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
-    expiresIn: '30d',
+    expiresIn: '60d',
   });
 
   return { token };
