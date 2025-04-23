@@ -3,7 +3,6 @@
 This is a NOQL blog backend project. I used **Typescript**, **Node.js**, **Express.js** and **MongoDB** or **Mongoose** in this project. Where user can write, update, and delete their blogs. The system incorporates role-based access control with two primary roles: **Admin** and **User**. It provides a secure and feature-rich API for managing blogs while ensuring user authentication and data integrity.
 
 ## Project Feature
-- Navbar with logo and essential menu items.
 
 This is a NSQL blogging backend platform. The database is designed to accommodate flexibility, scalability, and support for a variety of features such as blogging backend platform, where users and admin can register and login then user write, update, and delete their blogs.
 
